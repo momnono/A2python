@@ -1,29 +1,49 @@
 """methods for creating a product instance, simulating the monthly production and sale of the product, and generating the predicted stock statement."""
 from Product import Product
+import StockStatement
 
 class Application:
     def __init__(self):
         self.products = []
+        self.statements = []
 
-    def run(self):
-        while True:
-            pass
+    def create_product(self, code, name, price, cost, stock):
+        product = Product(code, name, price, cost, stock)
+        self.products.append(product)
+        return product
 
-            choice = self.get_input("Enter your choice (1-3): ")
+    def sell_product(self, product_code, qty):
+        product = self.get_product(product_code)
+        if product:
+            revenue = product.sell(qty)
+            if revenue:
+                statement = self.get_statement(product)
+                statement.add_sale(qty)
+                return revenue
+        return 0
 
-            if choice == "1":
-                pass
-            elif choice == "2":
-                pass
-            elif choice == "3":
-                pass
-                break
+    def restock_product(self, product_code, qty):
+        product = self.get_product(product_code)
+        if product:
+            product.restock(qty)
 
-    def create_product(self):
-        pass
+    def predict_stock(self, product_code):
+        product = self.get_product(product_code)
+        if product:
+            return product.predict_stock()
+        return ""
 
-    def show_products(self):
-        pass
+    def get_product(self, product_code):
+        for product in self.products:
+            if product.code == product_code:
+                return product
+        print("Product not found!")
+        return None
 
-    def get_input(self, message):
-        pass
+    def get_statement(self, product):
+        for statement in self.statements:
+            if statement.product == product:
+                return statement
+        statement = StockStatement(product)
+        self.statements.append(statement)
+        return statement

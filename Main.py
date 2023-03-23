@@ -1,7 +1,7 @@
 """interacts with the user and acts ads the user interface"""
 
 from Application import Application
-
+from input_validation import input_int, input_float
 
 app = Application()
 
@@ -12,20 +12,38 @@ while True:
     print("4. Predict Stock")
     print("5. Quit")
 
-    choice = input("Enter your choice: ")
+    choice = input_int("Enter your choice: ")
 
-    if choice == "1":
-        pass
+    if choice == 1:
+        code = input_int("Enter product code: ")
+        name = input("Enter product name: ")
+        price = input_float("Enter product price: ")
+        cost = input_float("Enter product cost: ")
+        stock = input_int("Enter product stock: ")
+        app.create_product(code, name, price, cost, stock)
+        print("Product created successfully!")
 
-    elif choice == "2":
-        pass
+    elif choice == 2:
+        code = input_int("Enter product code: ")
+        qty = input_int("Enter quantity: ")
+        revenue = app.sell_product(code, qty)
+        if revenue > 0:
+            print(f"Sold {qty} units for ${revenue:.2f}")
+        else:
+            print("Failed to sell product.")
 
-    elif choice == "3":
-        pass
-    elif choice == "4":
-        pass
+    elif choice == 3:
+        code = input_int("Enter product code: ")
+        qty = input_int("Enter quantity: ")
+        app.restock_product(code, qty)
+        print("Product restocked successfully!")
 
-    elif choice == "5":
+    elif choice == 4:
+        code = input_int("Enter product code: ")
+        report = app.predict_stock(code)
+        print(report)
+
+    elif choice == 5:
         break
 
     else:

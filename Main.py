@@ -38,10 +38,14 @@ while True:
         app.restock_product(code, qty)
         print("Product restocked successfully!")
 
-    elif choice == 4:
-        code = input_int("Enter product code: ")
+    elif choice == "4":
+        code = input("Enter product code: ")
         report = app.predict_stock(code)
+        statement = app.get_statement(app.get_product(code))
+        unfulfilled_sales = statement.total_sold
         print(report)
+        if unfulfilled_sales > 0:
+            print(f"Unfulfilled sales: {unfulfilled_sales} units")
 
     elif choice == 5:
         break

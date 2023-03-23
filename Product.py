@@ -12,10 +12,13 @@ class Product:
     def sell(self, qty):
         if qty > self.stock:
             print("Not enough stock!")
-            return 0
+            sold_qty = self.stock
+            self.stock = 0
         else:
+            sold_qty = qty
             self.stock -= qty
-            return self.price * qty
+        return self.price * sold_qty
+
     
     def restock(self, qty):
         self.stock += qty

@@ -16,11 +16,12 @@ class Application:
         product = self.get_product(product_code)
         if product:
             revenue = product.sell(qty)
-            if revenue:
+            if revenue > 0:
                 statement = self.get_statement(product)
-                statement.add_sale(qty)
+                statement.add_sale(qty - int(revenue / product.price))
                 return revenue
         return 0
+
 
     def restock_product(self, product_code, qty):
         product = self.get_product(product_code)
